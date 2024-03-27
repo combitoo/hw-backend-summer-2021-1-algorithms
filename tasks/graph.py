@@ -1,7 +1,7 @@
+from collections import deque
 from typing import TypeVar, Generic
 
 __all__ = ("Node", "Graph")
-
 
 T = TypeVar("T")
 
@@ -9,7 +9,6 @@ T = TypeVar("T")
 class Node(Generic[T]):
     def __init__(self, value: T) -> None:
         self._value = value
-
         self.outbound: list[Node] = []
         self.inbound: list[Node] = []
 
@@ -32,7 +31,34 @@ class Graph:
         self._root = root
 
     def dfs(self) -> list[Node]:
-        raise NotImplementedError
+        visited = set()
+        result = []
+
+        def dfs_util(node):
+            if node not in visited:
+                visited.add(node)
+                result.append(node)
+                for neighbor in node.outbound:
+                    dfs_util(neighbor)
+
+        dfs_util(self._root)
+        return result
 
     def bfs(self) -> list[Node]:
-        raise NotImplementedError
+        visited = set()
+        result = []
+        queue = deque()
+
+        queue.append(self._root)
+        visited.add(self._root)
+
+        while queue:
+            node = queue.popleft()
+            result.append(node)
+
+            for neighbor in node.outbound:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+
+        return result

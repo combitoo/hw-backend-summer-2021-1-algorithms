@@ -16,4 +16,17 @@ def seconds_to_str(seconds: int) -> str:
         >> seconds_to_str(93600)
         01d02h00m00s
     """
-    raise NotImplementedError
+    days, seconds = divmod(seconds, 86400)
+    hours, seconds = divmod(seconds, 3600)
+    minutes, seconds = divmod(seconds, 60)
+    
+    result = ""
+    if days:
+        result += f"{days:02d}d"
+    if hours or days:
+        result += f"{hours:02d}h"
+    if minutes or hours or days:
+        result += f"{minutes:02d}m"
+    result += f"{seconds:02d}s"
+    
+    return result
