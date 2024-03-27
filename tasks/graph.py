@@ -27,6 +27,7 @@ class Node(Generic[T]):
 
 
 class Graph:
+    """Test"""
     def __init__(self, root: Node) -> None:
         self._root = root
 
